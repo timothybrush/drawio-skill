@@ -97,10 +97,6 @@ The skill extracts colors, shapes, fonts, and edge style, renders a sample diagr
 | "delete `<name>`" | Deletes the user preset (prompts for confirmation) |
 | "rename `<a>` to `<b>`" | Renames a user preset |
 
-## License
-
-MIT
-
 ## Support
 
 If this skill helps you, consider supporting the author:
@@ -136,3 +132,7 @@ If this skill helps you, consider supporting the author:
 
 - Bilibili: https://space.bilibili.com/441831884
 - GitHub: https://github.com/Agents365-ai
+
+## License
+
+MIT
