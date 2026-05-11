@@ -4,18 +4,20 @@
 
 ## What it does
 
-- Generates `.drawio` XML files from natural language descriptions
-- Exports diagrams to PNG, SVG, PDF, or JPG using the native draw.io desktop CLI
-- **6 diagram type presets**: ERD, UML Class, Sequence, Architecture, ML/Deep Learning, Flowchart — with preset shapes, styles, and layout conventions
-- **Animated connectors** (`flowAnimation=1`) for data-flow and pipeline diagrams (visible in SVG and draw.io desktop)
-- **ML model diagram support** with tensor shape annotations `(B, C, H, W)` — ideal for NeurIPS/ICML/ICLR papers
-- **Grid-aligned layout** — all coordinates snap to 10px multiples for clean alignment
-- **Browser fallback** — generates diagrams.net URLs when the desktop CLI is unavailable
-- Iterative design: preview, get feedback, and refine diagrams until they look right
-- **Auto-launch** draw.io desktop after export for manual fine-tuning
-- Triggers automatically when diagrams would help explain complex systems
-- **Style presets (v1.3 new)** — teach the skill your visual style from a `.drawio` file or image, save it by name, and apply it to future diagrams. See `## Style Presets` in SKILL.md.
-- **Custom output directory (v1.4 new)** — ask for any output path (e.g. `./artifacts/`, `docs/images/`) and the skill will `mkdir -p` and export there; ideal for CI/CD artifact pipelines.
+| Capability | Description |
+|---|---|
+| `.drawio` XML generation | From natural-language descriptions |
+| Multi-format export | PNG / SVG / PDF / JPG via the native draw.io desktop CLI |
+| 6 diagram type presets | ERD, UML Class, Sequence, Architecture, ML/Deep Learning, Flowchart — preset shapes, styles, layout conventions |
+| Animated connectors | `flowAnimation=1` for data-flow and pipeline diagrams (visible in SVG and draw.io desktop) |
+| ML model diagrams | Tensor shape annotations `(B, C, H, W)` — ideal for NeurIPS/ICML/ICLR papers |
+| Grid-aligned layout | All coordinates snap to 10px multiples for clean alignment |
+| Browser fallback | Generates diagrams.net URLs when the desktop CLI is unavailable |
+| Iterative design | Preview, gather feedback, refine until the diagram looks right |
+| Auto-launch desktop | Opens draw.io after export for manual fine-tuning |
+| Auto-trigger | Activates whenever diagrams would help explain complex systems |
+| Style presets *(v1.3)* | Teach the skill your visual style from a `.drawio` file or image, save by name, reapply on demand |
+| Custom output dir *(v1.4)* | Ask for any path (`./artifacts/`, `docs/images/`); the skill `mkdir -p`s and exports — ideal for CI/CD pipelines |
 
 ## Comparison
 
