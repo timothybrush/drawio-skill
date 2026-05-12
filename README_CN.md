@@ -14,11 +14,11 @@
 
 | 文档 | 内容 |
 |---|---|
-| [COMPARISON_CN.md](COMPARISON_CN.md) | 与原生智能体、其他 draw.io skills/工具的对照表与核心优势 |
-| [INSTALL_CLI_CN.md](INSTALL_CLI_CN.md) | macOS / Windows / Linux 各平台的 draw.io 桌面版 CLI 安装配方 |
-| [INSTALL_SKILL_CN.md](INSTALL_SKILL_CN.md) | 插件市场、手动克隆与更新命令 |
-| [USAGE_CN.md](USAGE_CN.md) | 自然语言提示词、微服务示例、多种拓扑演示(星形 / 分层 / 环形) |
-| [STYLE_PRESETS_CN.md](STYLE_PRESETS_CN.md) | 内置预设、"从文件学习样式"流程、完整的预设管理命令 |
+| [docs/COMPARISON_CN.md](docs/COMPARISON_CN.md) | 与原生智能体、其他 draw.io skills/工具的对照表与核心优势 |
+| [docs/INSTALL_CLI_CN.md](docs/INSTALL_CLI_CN.md) | macOS / Windows / Linux 各平台的 draw.io 桌面版 CLI 安装配方 |
+| [docs/INSTALL_SKILL_CN.md](docs/INSTALL_SKILL_CN.md) | 插件市场、手动克隆与更新命令 |
+| [docs/USAGE_CN.md](docs/USAGE_CN.md) | 自然语言提示词、微服务示例、多种拓扑演示(星形 / 分层 / 环形) |
+| [docs/STYLE_PRESETS_CN.md](docs/STYLE_PRESETS_CN.md) | 内置预设、"从文件学习样式"流程、完整的预设管理命令 |
 | [skills/drawio-skill/SKILL.md](skills/drawio-skill/SKILL.md) | agent 加载的工作流指南 |
 
 ## 功能说明
@@ -45,7 +45,7 @@
 
 ## 快速开始
 
-两步 —— 先装 draw.io CLI(见 [INSTALL_CLI_CN.md](INSTALL_CLI_CN.md)),再把技能加载到 host(见 [INSTALL_SKILL_CN.md](INSTALL_SKILL_CN.md))。装好之后直接描述你想要的:
+两步 —— 先装 draw.io CLI(见 [docs/INSTALL_CLI_CN.md](docs/INSTALL_CLI_CN.md)),再把技能加载到 host(见 [docs/INSTALL_SKILL_CN.md](docs/INSTALL_SKILL_CN.md))。装好之后直接描述你想要的:
 
 ```
 画一个微服务电商架构图,包含 API Gateway、用户/订单/商品/支付服务、

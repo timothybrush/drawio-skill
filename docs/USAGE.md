@@ -20,7 +20,7 @@ The agent will generate the `.drawio` XML file and export it to PNG automaticall
 
 **Output:**
 
-![Microservices Architecture](assets/microservices-example.png)
+![Microservices Architecture](../assets/microservices-example.png)
 
 ## Topology demos
 
@@ -30,16 +30,16 @@ The skill handles various diagram topologies with clean edge routing — no line
 
 Central message broker with 6 microservices radiating outward. Edges enter Kafka from different sides, zero crossings.
 
-![Star topology](assets/demo-star.png)
+![Star topology](../assets/demo-star.png)
 
 ### Layered flow (10 nodes, 4 tiers)
 
 E-commerce architecture with 2 cross-connections: Order→Product (same-tier horizontal) and Auth→Redis (diagonal via routing corridor). All edges route cleanly.
 
-![Layered flow](assets/demo-layered.png)
+![Layered flow](../assets/demo-layered.png)
 
 ### Ring / cycle (8 nodes)
 
 CI/CD pipeline with a closed loop and 2 spur branches. Edges flow along the perimeter without crossing the interior.
 
-![Ring cycle](assets/demo-ring.png)
+![Ring cycle](../assets/demo-ring.png)

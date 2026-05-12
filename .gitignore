@@ -11,4 +11,4 @@ __pycache__/
 .last_update
 
 # Superpowers skill files (local-only)
-docs/superpowers
+site/superpowers

@@ -14,11 +14,11 @@ Works with Claude Code, Cursor, Copilot, OpenClaw, Codex, Hermes, and any agent 
 
 | Doc | What's inside |
 |---|---|
-| [COMPARISON.md](COMPARISON.md) | Side-by-side tables vs. native agents and other draw.io skills/tools, with key-advantages summary |
-| [INSTALL_CLI.md](INSTALL_CLI.md) | draw.io desktop CLI install recipes for macOS / Windows / Linux |
-| [INSTALL_SKILL.md](INSTALL_SKILL.md) | Plugin marketplace, manual clone, and update commands |
-| [USAGE.md](USAGE.md) | Natural-language prompts, microservices walkthrough, topology demos (star / layered / ring) |
-| [STYLE_PRESETS.md](STYLE_PRESETS.md) | Built-in presets, "learn my style from a file" workflow, manage-presets commands |
+| [docs/COMPARISON.md](docs/COMPARISON.md) | Side-by-side tables vs. native agents and other draw.io skills/tools, with key-advantages summary |
+| [docs/INSTALL_CLI.md](docs/INSTALL_CLI.md) | draw.io desktop CLI install recipes for macOS / Windows / Linux |
+| [docs/INSTALL_SKILL.md](docs/INSTALL_SKILL.md) | Plugin marketplace, manual clone, and update commands |
+| [docs/USAGE.md](docs/USAGE.md) | Natural-language prompts, microservices walkthrough, topology demos (star / layered / ring) |
+| [docs/STYLE_PRESETS.md](docs/STYLE_PRESETS.md) | Built-in presets, "learn my style from a file" workflow, manage-presets commands |
 | [skills/drawio-skill/SKILL.md](skills/drawio-skill/SKILL.md) | Workflow guide loaded by the agent |
 
 ## What it does
@@ -45,7 +45,7 @@ Works with Claude Code, Cursor, Copilot, OpenClaw, Codex, Hermes, and any agent 
 
 ## Quick Start
 
-Two steps — install the draw.io CLI first (see [INSTALL_CLI.md](INSTALL_CLI.md)), then drop the skill into your host (see [INSTALL_SKILL.md](INSTALL_SKILL.md)). After that, just describe what you want:
+Two steps — install the draw.io CLI first (see [docs/INSTALL_CLI.md](docs/INSTALL_CLI.md)), then drop the skill into your host (see [docs/INSTALL_SKILL.md](docs/INSTALL_SKILL.md)). After that, just describe what you want:
 
 ```
 Create a microservices e-commerce architecture with API Gateway, auth/user/order/product/payment services,
