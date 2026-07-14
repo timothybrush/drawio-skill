@@ -4,6 +4,20 @@ All notable changes to **drawio-skill** are documented here. The format is based
 on [Keep a Changelog](https://keepachangelog.com/), and the project follows
 semantic-ish versioning (the `version:` field in `skills/drawio-skill/SKILL.md`).
 
+## [1.34.0] — 2026-07-14
+### Added
+- **`scripts/tubemap.py`** — Tube-Map Mode: restyle a graph as a London-
+  Underground-style metro map. From a metro JSON (coloured *lines* = ordered
+  stations on an integer grid, shared stations = interchanges) it draws thick
+  coloured line strokes with octilinear routing (horizontal / vertical / 45°,
+  one automatic diagonal-then-straight bend when two stations aren't aligned),
+  white-fill black-ring interchange circles, small station stops, and offset
+  labels — an editable `.drawio`. Stdlib-only, no draw.io CLI or Graphviz
+  needed; a line without a `color` is assigned one from a built-in tube palette.
+  Schema + the one grid rule in `references/tubemap.md`. Scripts: 36 → 37;
+  tests: 116 → 128 (`test_tubemap` 12). Routing rows in SKILL.md's resources
+  table, toolbox (quick-guide + §1), and a README/README_CN example + demo image.
+
 ## [1.33.0] — 2026-07-14
 ### Added
 - **`scripts/raster2drawio.py`** — image → editable `.drawio`. Converts a
