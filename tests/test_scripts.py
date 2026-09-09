@@ -969,6 +969,33 @@ class TestImportersCli(unittest.TestCase):
             self.assertIn("b85450", estatus[("api", "cache")])  # removed
             self.assertIn("d79b00", estatus[("api", "worker")])  # rerouted
 
+    def test_drawiodiff_incoming_repoint_is_rerouted(self):
+        # Mirror of the case above, with the arrow the other way round: the
+        # (cache, api) edge re-points to (worker, api) — target kept, old
+        # source removed, new source added — so it is orange "rerouted" too.
+        old = self._drawio(
+            [("api", "api"), ("db", "db"), ("cache", "cache")],
+            [("db", "api"), ("cache", "api")],
+        )
+        new = self._drawio(
+            [("api", "api"), ("db", "db"), ("worker", "worker")],
+            [("db", "api"), ("worker", "api")],
+        )
+        with tempfile.TemporaryDirectory() as d:
+            self._write(os.path.join(d, "old.drawio"), old)
+            self._write(os.path.join(d, "new.drawio"), new)
+            graph = json.loads(
+                run(
+                    "drawiodiff.py",
+                    os.path.join(d, "old.drawio"),
+                    os.path.join(d, "new.drawio"),
+                ).stdout
+            )
+            estatus = {(e["source"], e["target"]): e["style"] for e in graph["edges"]}
+            self.assertIn("999999", estatus[("db", "api")])  # same
+            self.assertIn("b85450", estatus[("cache", "api")])  # removed
+            self.assertIn("d79b00", estatus[("worker", "api")])  # rerouted
+
     @staticmethod
     def _drawio_pos(nodes, edges):
         """.drawio XML from (id, label, x, y) nodes and (src, tgt) edges."""
