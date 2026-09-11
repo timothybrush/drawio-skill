@@ -276,6 +276,60 @@ class TestAutolayoutColor(unittest.TestCase):
         self.assertIn("&quot;", out)
 
 
+class TestDiagramIr(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.d = load("diagram_ir")
+
+    def test_grid_fallback_keeps_drill_down_links(self):
+        """Without Graphviz, write_drawio lays out a grid; links must survive it."""
+        d = self.d
+        real = d._load_autolayout()
+        ir = d.normalize_ir(
+            {
+                "schema": d.SCHEMA,
+                "nodes": [
+                    {"id": "api", "label": "API"},
+                    {"id": "db", "label": "DB"},
+                ],
+                "edges": [{"source": "api", "target": "db"}],
+            }
+        )
+        ids = [n["id"] for n in ir["nodes"]]
+        views = [
+            {"name": "A", "id": "a", "nodes": ids},
+            {"name": "B", "id": "b", "nodes": ids},
+        ]
+
+        class NoGraphviz:
+            @staticmethod
+            def build_dot(graph):
+                return real.build_dot(graph)
+
+            @staticmethod
+            def wrap_page(cells, page_id=None, name=None):
+                return real.wrap_page(cells, page_id=page_id, name=name)
+
+            @staticmethod
+            def layout(_dot):
+                raise SystemExit("graphviz missing")
+
+        original = d._load_autolayout
+        setattr(d, "_load_autolayout", lambda: NoGraphviz)
+        try:
+            with tempfile.TemporaryDirectory() as td:
+                path = os.path.join(td, "fallback.drawio")
+                d.write_drawio(ir, path, views=views)
+                with open(path, encoding="utf-8") as fh:
+                    xml = fh.read()
+        finally:
+            setattr(d, "_load_autolayout", original)
+
+        self.assertIn('<UserObject id="a--api" label="API"', xml)
+        self.assertIn('link="data:page/id,b"', xml)
+        self.assertIn('link="data:page/id,a"', xml)
+
+
 class TestBuiltinPresets(unittest.TestCase):
     STYLES = os.path.join(ROOT, "skills", "drawio-skill", "styles", "built-in")
 
