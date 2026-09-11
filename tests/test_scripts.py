@@ -1525,6 +1525,25 @@ class TestImportersCli(unittest.TestCase):
             self.assertTrue(graph["nodes"][0]["id"].startswith("op"))
             self.assertEqual(graph["edges"], [])
 
+    def test_protoimports_service_and_messages(self):
+        proto = (
+            "syntax = \"proto3\";\n"
+            "package service.v1;\n"
+            "message Req { string query = 1; }\n"
+            "message Resp { int32 total = 1; }\n"
+            "service SearchService {\n"
+            "  rpc Search(Req) returns (Resp);\n"
+            "}\n"
+        )
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "search.proto")
+            self._write(p, proto)
+            graph = json.loads(run("protoimports.py", p, "--group").stdout)
+            ids = {n["id"] for n in graph["nodes"]}
+            self.assertEqual(ids, {"service.v1.SearchService", "service.v1.Req", "service.v1.Resp"})
+            self.assertEqual(len(graph["edges"]), 2)
+            self.assertEqual({n.get("group") for n in graph["nodes"]}, {"service.v1"})
+
 
 class TestDrawioHtml(unittest.TestCase):
     @classmethod

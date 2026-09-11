@@ -7,6 +7,13 @@ semantic-ish versioning (the `metadata.version` field in
 
 ## [3.2.4] - 2026-09-11
 
+### Added
+
+- **Protobuf importer** (`protoimports.py`): parse Protocol Buffers (`.proto`)
+  files into service (with RPC methods), message (with typed fields), and enum
+  nodes with source provenance, request/response and field-type edges, and
+  optional package grouping.
+
 ### Changed
 
 - **README / README_CN reorganized for readability**: the 26 flat Highlights

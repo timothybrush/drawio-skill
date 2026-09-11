@@ -51,6 +51,7 @@ IMPORTERS = {
     "compose": "composeimports.py",
     "sql": "sqlerd.py",
     "openapi": "openapiimports.py",
+    "proto": "protoimports.py",
     "ci": "ciimports.py",
 }
 CODE_IMPORTERS = {"python", "javascript", "js", "go", "rust", "pyclasses"}
@@ -80,6 +81,8 @@ def emit(value, output=None):
 def detect_source(path):
     p = Path(path)
     if p.is_dir():
+        if list(p.rglob("*.proto")):
+            return "proto"
         if list(p.rglob("*.tf")):
             return "terraform"
         if (p / "Cargo.toml").exists():
@@ -92,6 +95,8 @@ def detect_source(path):
             return "ci"
         return "python"
     suffix = p.suffix.lower()
+    if suffix == ".proto":
+        return "proto"
     if suffix == ".sql":
         return "sql"
     if suffix in {".tf", ".tfvars"}:
@@ -161,6 +166,7 @@ def importer_ir(source, source_type, group=False):
             "rust",
             "pyclasses",
             "openapi",
+            "proto",
         }:
             cmd.insert(-2, "--group")
         proc = subprocess.run(cmd, text=True, capture_output=True)
@@ -500,7 +506,8 @@ def parser():
     p.set_defaults(func=cmd_doctor)
 
     p = sub.add_parser(
-        "build", help="build a draw.io from IR, graph JSON, code, IaC, SQL or OpenAPI"
+        "build",
+        help="build a draw.io from IR, graph JSON, code, IaC, SQL, OpenAPI or Protobuf",
     )
     p.add_argument("source")
     p.add_argument("-o", "--output", required=True)

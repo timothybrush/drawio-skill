@@ -43,6 +43,7 @@ Use focused scripts directly when you need their narrow interface; use
 | a running cluster/stack/cloud | what's **actually deployed** | `tfstate` · `dockerimports` · `k8simports -` |
 | a SQL schema | an ER diagram | `sqlerd` |
 | an OpenAPI / Swagger spec | an API diagram (by method) | `openapiimports` |
+| a Protocol Buffers (.proto) schema | a message/service diagram | `protoimports` |
 | CI workflows (GH Actions / GitLab) | the pipeline as a DAG | `ciimports` |
 | a diagram + a metrics file | it coloured by the data | `heatmap` |
 | a sequence of interactions | a UML sequence diagram | `seqlayout` |
@@ -88,6 +89,7 @@ All emit graph JSON → `autolayout.py`.
 - **`sqlerd.py`** — SQL DDL (`CREATE TABLE`) → ERD with crow's-foot FK edges.
 - **`ciimports.py`** — GitHub Actions (`.github/workflows/*.yml`) and/or `.gitlab-ci.yml` -> pipeline DAG: job nodes (runner, `matrix xN`, reusable-workflow calls in purple), `needs:` edges, an `on:` trigger node per workflow, jobs boxed per workflow / per GitLab stage.
 - **`openapiimports.py`** — OpenAPI 3 / Swagger 2 spec → API diagram: one node per operation (coloured by HTTP method) + one per component schema, with edges to the schemas each operation uses and between nested schemas. `--group` by tag.
+- **`protoimports.py`** — Protocol Buffers (`.proto`) → message/service diagram: one node per message, service (with RPC methods), or enum; edges for referenced message field types and service request/response types. `--group` by proto package.
 
 ## 4. Live infrastructure → diagram (actually running)
 

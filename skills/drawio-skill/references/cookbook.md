@@ -128,6 +128,14 @@ Turn schema.sql into an ER diagram with PK/FK markers and crow's-foot
 notation; keep schema prefixes for the billing tables.
 ```
 
+## Protobuf / gRPC architecture diagram
+
+```text
+Turn our Protocol Buffers schemas under ./proto into a service and message diagram.
+Show RPC methods on the service nodes, group by proto package, and link request/response
+and referenced field types. Output PNG + editable .drawio.
+```
+
 ## ML / deep-learning model
 
 ```text
