@@ -15,11 +15,16 @@
 一个把自然语言和真实系统源转换成可持续维护的 `.drawio` 架构模型的技能。除了生成与导出，它还能保留人工布局地增量同步、从同一模型投影多种视图、执行架构规则、查询依赖、模拟故障传播，并发布无外部依赖的互动讲解页。支持 **Claude Code、Cursor、Copilot、OpenClaw、Codex、Autohand Code、Hermes** 等任何兼容 [Agent Skills](https://agentskills.io) 规范的 agent。
 
 <p align="center">
-  <img src="assets/microservices-example.png" width="900" alt="微服务架构图 —— 来自一条自然语言提示词">
+  <img src="assets/hero-demo.gif" width="900" alt="演示：Terraform 源码生成带官方图标的架构图；v2 变更渲染为更新后的图">
+</p>
+
+<p align="center">
+  <img src="assets/microservices-example.png" width="900" alt="微服务架构图：来自一条自然语言提示词">
 </p>
 
 ## ✨ 核心亮点
 
+- **白板照片 / 截图 → 可编辑图表** — 拍下旧 PNG 或实体白板，由视觉模型提取图结构，`raster2drawio.py` 按原布局重建为真正可编辑的 `.drawio`
 - **架构数字孪生 / Diagram IR** —— 图的语义、来源与几何分离；同一模型可生成高管、系统、部署、数据流、安全五种可下钻视图
 - **增量同步且不丢人工布局** —— `diagramctl sync` 只更新变化的节点和关系，保留手调坐标、样式与注释；删除项默认进入可审查状态
 - **Diagram-as-Test** —— 用 YAML/JSON 规则检查直连数据库、循环依赖、孤立节点、owner、生产可观测性、外部超时、信任边界协议与颜色对比度
