@@ -5,6 +5,19 @@ on [Keep a Changelog](https://keepachangelog.com/), and the project follows
 semantic-ish versioning (the `metadata.version` field in
 `skills/drawio-skill/SKILL.md`).
 
+## [Unreleased]
+
+### Changed
+
+- **README / README_CN reorganized for readability**: the 26 flat Highlights
+  bullets are grouped into four themes (from a prompt / from real sources /
+  keep it true over time / share and restyle); Installation and Quick Start
+  moved ahead of the examples; the 60-line CLI dump and its duplicate 16-row
+  table are replaced by one short snippet plus a five-row stage table linking
+  to `references/toolbox.md`. The microservices figure moved from the hero
+  slot into Examples (its prompt callout intact). Section count and order,
+  figures, and links stay mirrored between the two languages.
+
 ## [3.2.3] - 2026-09-11
 
 ### Added
