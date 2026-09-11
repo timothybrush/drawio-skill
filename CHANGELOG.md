@@ -5,6 +5,19 @@ on [Keep a Changelog](https://keepachangelog.com/), and the project follows
 semantic-ish versioning (the `metadata.version` field in
 `skills/drawio-skill/SKILL.md`).
 
+## [Unreleased]
+
+### Added
+
+- **Hero demo GIF** (`assets/hero-demo.gif`): Terraform source becomes an
+  architecture diagram with official icons, then the v2 change renders as an
+  updated diagram. Reproducible via `examples/hero-demo/build_hero_gif.py`
+  (needs drawio CLI + ffmpeg + Pillow); README and README_CN heroes now lead
+  with it.
+- **README / README_CN**: the whiteboard photo / screenshot to editable
+  diagram capability (`raster2drawio.py`) is promoted to the first
+  Highlights bullet.
+
 ## [3.2.2] - 2026-09-11
 
 ### Fixed

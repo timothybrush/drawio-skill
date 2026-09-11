@@ -15,11 +15,16 @@
 A skill that turns natural language and real system sources into maintainable `.drawio` architecture models. Beyond generation and export, it incrementally synchronizes without discarding manual layout, projects multiple views from one model, enforces architecture contracts, queries dependencies, simulates failure propagation, and publishes dependency-free interactive walkthroughs. Works with **Claude Code, Cursor, Copilot, OpenClaw, Codex, Autohand Code, Hermes**, and any agent compatible with the [Agent Skills](https://agentskills.io) format.
 
 <p align="center">
-  <img src="assets/microservices-example.png" width="900" alt="Microservices Architecture — generated from a single natural-language prompt">
+  <img src="assets/hero-demo.gif" width="900" alt="Hero demo: Terraform source becomes an architecture diagram with official icons; the v2 change renders as an updated diagram">
+</p>
+
+<p align="center">
+  <img src="assets/microservices-example.png" width="900" alt="Microservices Architecture: generated from a single natural-language prompt">
 </p>
 
 ## ✨ Highlights
 
+- **Whiteboard photo / screenshot → editable diagram** — snap a legacy PNG or a physical whiteboard, let vision extract the graph, and `raster2drawio.py` rebuilds it as a real, editable `.drawio` honouring the original layout
 - **Architecture digital twin / Diagram IR** — separate meaning, provenance, and geometry; project executive, system, deployment, data-flow, and security views from one model
 - **Incremental sync without losing manual layout** — `diagramctl sync` updates changed nodes/relations while preserving tuned coordinates, styles, and annotations; removals stay reviewable by default
 - **Diagram-as-Test** — YAML/JSON rules for direct Internet-to-database access, cycles, orphans, ownership, production observability, external timeouts, trust-boundary protocols, and color contrast
