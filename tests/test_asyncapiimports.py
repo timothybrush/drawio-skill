@@ -13,6 +13,7 @@ SCRIPT = os.path.join(ROOT, "skills", "drawio-skill", "scripts", "asyncapiimport
 
 def load_importer():
     spec = importlib.util.spec_from_file_location("asyncapiimports", SCRIPT)
+    assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -36,7 +37,10 @@ class TestAsyncApiImports(unittest.TestCase):
                         "summary": "Consume order",
                         "message": {"payload": {"$ref": "#/components/schemas/Audit"}},
                     },
-                }
+                },
+                "orders/shipped": {
+                    "publish": {"message": {"payload": {"type": "object"}}},
+                },
             },
             "components": {
                 "messages": {
@@ -59,6 +63,11 @@ class TestAsyncApiImports(unittest.TestCase):
         self.assertEqual(by_id["channel:orders/created"]["group"], "orders")
         self.assertIn("fillColor=#d5e8d4", by_id["operation:orders/created:publish"]["style"])
         self.assertIn("fillColor=#dae8fc", by_id["operation:orders/created:subscribe"]["style"])
+        # No summary or operationId: fall back to the channel, not "channel:action".
+        self.assertEqual(
+            "PUBLISH\norders/shipped", by_id["operation:orders/shipped:publish"]["label"]
+        )
+        self.assertEqual("Audit\n(1 field)", by_id["schema:Audit"]["label"])
         self.assertIn(("operation:orders/created:publish", "channel:orders/created"), pairs)
         self.assertIn(("operation:orders/created:publish", "schema:Order"), pairs)
         self.assertIn(("operation:orders/created:subscribe", "schema:Audit"), pairs)

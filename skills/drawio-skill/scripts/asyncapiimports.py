@@ -30,6 +30,7 @@ SCHEMA_EDGE = (
 
 def load_spec(path):
     """Parse JSON directly and YAML through the optional PyYAML dependency."""
+    # pi-lens-ignore: ast-grep:unchecked-throwing-call-python
     with open(path, encoding="utf-8") as handle:
         text = handle.read()
     if path.lower().endswith((".yaml", ".yml")):
@@ -163,9 +164,8 @@ def build(spec, group=False, direction="LR"):
     # send/receive. A channel is referenced by JSON Pointer.
     for operation_name, raw_operation in (spec.get("operations") or {}).items():
         operation = raw_operation if isinstance(raw_operation, dict) else {}
-        action = {"send": "publish", "receive": "subscribe"}.get(
-            operation.get("action"), operation.get("action")
-        )
+        action = str(operation.get("action") or "")
+        action = {"send": "publish", "receive": "subscribe"}.get(action, action)
         channel_ref = (operation.get("channel") or {}).get("$ref")
         channel_name = (
             decode_pointer_token(channel_ref.split("/")[-1])
@@ -185,7 +185,15 @@ def build(spec, group=False, direction="LR"):
 
     for operation_name, action, channel_name, operation, pointer in operations:
         operation_id = f"operation:{operation_name}"
-        title = operation.get("summary") or operation.get("operationId") or operation_name
+        raw_channel = channels[channel_name]
+        channel = raw_channel if isinstance(raw_channel, dict) else {}
+        # Without a summary or operationId (common in AsyncAPI 2), the channel
+        # address reads better than the synthetic "channel:action" name.
+        title = (
+            operation.get("summary")
+            or operation.get("operationId")
+            or str(channel.get("address") or channel_name)
+        )
         node = {
             "id": operation_id,
             "label": f"{action.upper()}\n{title}",
@@ -195,8 +203,6 @@ def build(spec, group=False, direction="LR"):
             "provenance": {"pointer": pointer},
         }
         if group:
-            raw_channel = channels[channel_name]
-            channel = raw_channel if isinstance(raw_channel, dict) else {}
             node["group"] = first_tag(operation) or channel_group(channel_name, channel)
         nodes.append(node)
         add_edge(operation_id, channel_ids[channel_name], action, EVENT_EDGE, pointer)
@@ -218,7 +224,8 @@ def build(spec, group=False, direction="LR"):
     for name, raw_schema in schemas.items():
         schema = raw_schema if isinstance(raw_schema, dict) else {}
         properties = schema.get("properties") or {}
-        label = name + (f"\n({len(properties)} fields)" if properties else "")
+        count = len(properties)
+        label = name + (f"\n({count} field{'s' if count != 1 else ''})" if count else "")
         node = {
             "id": schema_ids[name],
             "label": label,
@@ -262,6 +269,7 @@ def main():
     graph = build(spec, args.group, args.direction)
     text = json.dumps(graph, indent=2)
     if args.output:
+        # pi-lens-ignore: ast-grep:unchecked-throwing-call-python
         with open(args.output, "w", encoding="utf-8") as handle:
             handle.write(text)
         sys.stderr.write(f"wrote {args.output}\n")
