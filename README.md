@@ -18,35 +18,36 @@ A skill that turns natural language and real system sources into maintainable `.
   <img src="assets/hero-demo.gif" width="900" alt="Hero demo: Terraform source becomes an architecture diagram with official icons; the v2 change renders as an updated diagram">
 </p>
 
-<p align="center">
-  <img src="assets/microservices-example.png" width="900" alt="Microservices Architecture: generated from a single natural-language prompt">
-</p>
-
 ## ✨ Highlights
 
+**From a prompt**
+
+- **Describe it, get an editable `.drawio`** — the skill plans the layout, writes the XML, exports, then self-checks its own PNG and auto-fixes overlaps, clipped labels, and stacked edges (up to 2 rounds), with up to 5 rounds of your feedback
+- **Mermaid → native .drawio** (draw.io ≥ 30) — author 28 standard types as Mermaid text (**mindmap, gantt, timeline, journey, pie, sankey, kanban**…) and the CLI converts them into a laid-out, editable `.drawio`: structure in, layout free
 - **Whiteboard photo / screenshot → editable diagram** — snap a legacy PNG or a physical whiteboard, let vision extract the graph, and `raster2drawio.py` rebuilds it as a real, editable `.drawio` honouring the original layout
+- **11 diagram type presets** — ERD, UML Class, Sequence, C4, Architecture, ML/Deep Learning, Flowchart, SysML, BPMN, Network Topology, Cross-Functional Swimlane
+
+**From real sources**
+
+- **Visualize a codebase** — import graphs for Python / JS-TS / Go / Rust and Python class hierarchies, with Graphviz placement, transitive reduction, and nested module containers
+- **IaC and live infrastructure** — Terraform, Kubernetes, and docker-compose configs become diagrams with official AWS / Azure / GCP / K8s icons; snapshot what's *actually deployed* from `terraform show -json`, `docker inspect`, or `kubectl get -o json`
+- **Schemas and pipelines** — SQL DDL → ER diagram, OpenAPI/Swagger → API diagram coloured by HTTP method, GitHub Actions / GitLab CI → pipeline DAG
+- **Deterministic engines** — sequence diagrams with computed lifelines and activation bars; multi-page C4 models with click-to-drill-down
+
+**Keep it true over time**
+
 - **Architecture digital twin / Diagram IR** — separate meaning, provenance, and geometry; project executive, system, deployment, data-flow, and security views from one model
 - **Incremental sync without losing manual layout** — `diagramctl sync` updates changed nodes/relations while preserving tuned coordinates, styles, and annotations; removals stay reviewable by default
-- **Diagram-as-Test** — YAML/JSON rules for direct Internet-to-database access, cycles, orphans, ownership, production observability, external timeouts, trust-boundary protocols, and color contrast
-- **Architecture query and review** — query components/owners/boundaries/paths, identify articulation points and high coupling, and emit Markdown/JSON review reports
-- **What-if + Story Mode** — simulate failure propagation with an annotated diagram; publish an offline, keyboard-accessible HTML walkthrough with text alternative, provenance, and language switching
-- **MCP server built in** — `scripts/diagramctl_mcp.py` exposes nine tools (`build/sync/views/architecture_test/review/query/whatif/story/doctor`) to Claude Desktop, Cursor, VS Code, Codex, and any MCP host; stdlib-only and offline, no `mcp` package
-- **One CLI** — `doctor/build/sync/views/query/test/review/whatif/story/publish/transform` connects the toolbox; core semantic workflows need only Python and are offline by default
-- **11 diagram type presets** — ERD, UML Class, Sequence, C4, Architecture, ML/Deep Learning, Flowchart, SysML (BDD / IBD / Requirement / Parametric), BPMN, Network Topology, Cross-Functional Swimlane
-- **Mermaid → native .drawio** (draw.io ≥ 30) — author 28 standard types as Mermaid text (**mindmap, gantt, timeline, journey, pie, sankey, kanban**…) and the CLI converts them into a laid-out, editable `.drawio` — structure in, layout free
-- **Visualize a codebase** — extract and auto-lay-out the structure of a Python / JS-TS / Go / Rust project (import graphs) or a Python class hierarchy — Graphviz placement, transitive reduction, nested module containers
-- **IaC → architecture diagram** — turn **Terraform** configs, **Kubernetes** manifests, or **docker-compose** files into an architecture diagram where every resource renders as its **official AWS / Azure / GCP / K8s icon**, edges derived from actual references (role ARNs, selectors, volume mounts)
-- **SQL DDL → ER diagram** — parse `CREATE TABLE` statements into per-table nodes with PK/FK markers and crow's-foot foreign-key edges
-- **Deterministic sequence diagrams** — describe participants + messages as JSON; lifelines, auto-tracked activation bars, and arrows are computed, never hand-placed
-- **C4 model with drill-down** — one command generates the multi-page System Context → Container → Component set with official C4 shapes; parent elements **click through** to their child page
-- **Search 10,000+ official shapes** — resolve the exact AWS / Azure / GCP / Cisco / Kubernetes / UML / BPMN icon style instead of guessing (no more blank-box `shape=mxgraph.*` typos)
-- **AI / LLM brand logos** — 321 logos (OpenAI, Claude, Gemini, Mistral, Llama, Ollama, LangChain…) that draw.io has none of, plus **18 data-store brands** (Redis, Postgres, Qdrant, Milvus…) for LLM/RAG architecture diagrams
-- **Self-check + auto-fix** — reads its own PNG output and auto-fixes overlaps, clipped labels, stacked edges, and more (up to 2 rounds)
-- **Iterative feedback loop** — up to 5 rounds of targeted refinement
-- **Style presets** — capture your visual style from a `.drawio` file or image, reuse on demand
-- **Clean layout** — grid-aligned, spacing scales with diagram size, connectors routed clear of nodes
-- **CI-ready** — official `drawio-architecture-test` GitHub Action enforces architecture contracts on every PR with no draw.io/Xvfb/Graphviz install; visual PR diff action for rendered `.drawio`
-- **Multi-agent, no daemon** — portable Agent Skills package plus an optional MCP server for host integrations (core semantic workflows need only Python; native export remains optional)
+- **Diagram-as-Test, in CI** — YAML/JSON architecture rules (Internet-to-database access, cycles, orphans, trust boundaries, contrast…) plus an official GitHub Action that enforces them on every PR, and a PR action that renders visual diffs
+- **Query, review, what-if** — query components/owners/paths, spot articulation points and high coupling, simulate failure propagation, publish an accessible Story walkthrough
+- **Drift and history** — colour-coded diffs between two diagrams or two live snapshots; a time-lapse player of how a codebase's architecture grew
+
+**Share and restyle**
+
+- **Repurpose with one command** — interactive HTML viewer (pan/zoom/search), PowerPoint deck, animated data-flow SVG, Mermaid or Markdown export, click-through runbook, exec-summary compression
+- **Restyle and enrich** — style presets (yours or built-in `dark`/`corporate`/…), bilingual label variants with layout untouched, data-driven heat maps, white-to-metro tubemap mode
+- **10,000+ official shapes + 321 AI/LLM logos** — resolve exact AWS / Cisco / K8s / UML icon styles instead of guessing, plus brand logos draw.io itself lacks
+- **One CLI, optional MCP server** — `diagramctl doctor/build/sync/views/query/test/review/whatif/story/publish/transform`, core workflows stdlib-only and offline; the MCP server exposes them to Claude Desktop, Cursor, VS Code, Codex, and any MCP host. Portable to any Agent Skills-compatible agent, no daemon
 
 ## 🗺️ Feature Map
 
@@ -55,59 +56,6 @@ A skill that turns natural language and real system sources into maintainable `.
 </div>
 
 A bird's-eye view of everything the skill does — diagram types, import sources, layout engines, styling, export formats, and repurposing — in one map. Fittingly, this map was itself drawn with drawio-skill.
-
-## 🖼️ Examples
-
-The maintained [Architecture Studio showcase](examples/architecture-studio/)
-covers code → IR → `.drawio`, conflict-aware synchronization that preserves a
-manually tuned layout, and architecture → policy/views/what-if/accessible Story.
-Every artifact is regenerated by one script and verified in the test suite.
-
-> [!TIP]
-> **The hero image above was generated from this single prompt:**
-
-```
-Create a microservices e-commerce architecture with Mobile/Web/Admin clients,
-API Gateway (auth + rate limiting + routing), Auth/User/Order/Product/Payment
-services, Kafka message queue, Notification service, and User DB / Order DB /
-Product DB / Redis Cache / Stripe API
-```
-
-The skill is designed to route edges cleanly across different topologies, avoiding lines that cross through shapes:
-
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <img src="assets/demo-star.png" alt="Star topology" width="100%"><br>
-      <b>Star</b> · 7 nodes<br>
-      <sub>Central message broker with 6 microservices radiating outward, no edge crossings on this example.</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="assets/demo-layered.png" alt="Layered flow" width="100%"><br>
-      <b>Layered</b> · 10 nodes / 4 tiers<br>
-      <sub>E-commerce stack with horizontal and diagonal cross-connections routed via corridors.</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="assets/demo-ring.png" alt="Ring cycle" width="100%"><br>
-      <b>Ring</b> · 8 nodes<br>
-      <sub>CI/CD pipeline with a closed loop and 2 spur branches flowing along the perimeter.</sub>
-    </td>
-  </tr>
-</table>
-
-It also speaks **Mermaid** — standard types (flowchart, mindmap, **kanban**, gitGraph, timeline…) convert straight to native, editable `.drawio`. Here's a Kanban board (this project's own roadmap) generated from a few lines of Mermaid:
-
-<div align="center">
-  <img src="assets/kanban.png" width="620" alt="Kanban board generated by drawio-skill from Mermaid — this project's roadmap across Backlog / Todo / In Progress / Done">
-</div>
-
-**Tube-Map Mode** restyles a pipeline or journey as a London-Underground-style metro map — coloured lines, octilinear (H/V/45°) routing, and white interchange circles. Here's the skill's own flow (this map is `assets/tubemap.json`, ~20 lines):
-
-<div align="center">
-  <img src="assets/tubemap.png" width="720" alt="drawio-skill's pipeline drawn as a metro map — Author / Import / Repurpose / Analyze lines meeting at the Auto-layout and .drawio interchange stations">
-</div>
-
-Full walkthrough in [docs/USAGE.md](docs/USAGE.md).
 
 ## 🚀 Installation
 
@@ -158,7 +106,7 @@ Also indexed on [SkillsMP](https://skillsmp.com/skills/agents365-ai-drawio-skill
 
 After installation, just describe what you want. For example, an ML model:
 
-```
+```text
 Draw a Transformer encoder-decoder for machine translation: 6-layer encoder
 with self-attention, 6-layer decoder with cross-attention, input embeddings
 (batch × 512 × 768), positional encoding, and a final output projection.
@@ -167,7 +115,64 @@ Annotate tensor shapes between layers and color-code by layer type.
 
 The skill plans the layout, generates the `.drawio` XML, exports to your chosen format, self-checks the result, and lets you iterate.
 
-## 🗺️ Visualize Code & Infrastructure
+## 🖼️ Examples
+
+<p align="center">
+  <img src="assets/microservices-example.png" width="900" alt="Microservices Architecture: generated from a single natural-language prompt">
+</p>
+
+> [!TIP]
+> **The diagram above was generated from this single prompt:**
+
+```text
+Create a microservices e-commerce architecture with Mobile/Web/Admin clients,
+API Gateway (auth + rate limiting + routing), Auth/User/Order/Product/Payment
+services, Kafka message queue, Notification service, and User DB / Order DB /
+Product DB / Redis Cache / Stripe API
+```
+
+The maintained [Architecture Studio showcase](examples/architecture-studio/)
+covers code → IR → `.drawio`, conflict-aware synchronization that preserves a
+manually tuned layout, and architecture → policy/views/what-if/accessible Story.
+Every artifact is regenerated by one script and verified in the test suite.
+
+The skill is designed to route edges cleanly across different topologies, avoiding lines that cross through shapes:
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="assets/demo-star.png" alt="Star topology" width="100%"><br>
+      <b>Star</b> · 7 nodes<br>
+      <sub>Central message broker with 6 microservices radiating outward, no edge crossings on this example.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/demo-layered.png" alt="Layered flow" width="100%"><br>
+      <b>Layered</b> · 10 nodes / 4 tiers<br>
+      <sub>E-commerce stack with horizontal and diagonal cross-connections routed via corridors.</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/demo-ring.png" alt="Ring cycle" width="100%"><br>
+      <b>Ring</b> · 8 nodes<br>
+      <sub>CI/CD pipeline with a closed loop and 2 spur branches flowing along the perimeter.</sub>
+    </td>
+  </tr>
+</table>
+
+It also speaks **Mermaid** — standard types (flowchart, mindmap, **kanban**, gitGraph, timeline…) convert straight to native, editable `.drawio`. Here's a Kanban board (this project's own roadmap) generated from a few lines of Mermaid:
+
+<div align="center">
+  <img src="assets/kanban.png" width="620" alt="Kanban board generated by drawio-skill from Mermaid — this project's roadmap across Backlog / Todo / In Progress / Done">
+</div>
+
+**Tube-Map Mode** restyles a pipeline or journey as a London-Underground-style metro map — coloured lines, octilinear (H/V/45°) routing, and white interchange circles. Here's the skill's own flow (this map is `assets/tubemap.json`, ~20 lines):
+
+<div align="center">
+  <img src="assets/tubemap.png" width="720" alt="drawio-skill's pipeline drawn as a metro map — Author / Import / Repurpose / Analyze lines meeting at the Auto-layout and .drawio interchange stations">
+</div>
+
+Full walkthrough in [docs/USAGE.md](docs/USAGE.md).
+
+## 🗺️ From Real Sources to Diagrams
 
 Beyond hand-authored diagrams, the skill turns **existing code, infrastructure, and schemas into diagrams** — no manual coordinates. Just ask:
 
@@ -182,105 +187,26 @@ Beyond hand-authored diagrams, the skill turns **existing code, infrastructure, 
 Under the hood it runs a bundled extractor → auto-layout → validate pipeline:
 
 ```bash
-# Import graph — Python / JS-TS / Go / Rust
-python3 scripts/pyimports.py   myproject --group -o graph.json
-python3 scripts/jsimports.py   ./src     --group -o graph.json
-python3 scripts/goimports.py   ./module  --group -o graph.json
-python3 scripts/rustimports.py ./crate   --group -o graph.json
+# source -> graph JSON -> placed, editable .drawio
+python3 scripts/tfimports.py ./infra -o graph.json          # Terraform -> official AWS icons
+python3 scripts/autolayout.py graph.json -o architecture.drawio
 
-# Python class-inheritance hierarchy
-python3 scripts/pyclasses.py   mypackage --group -o graph.json
-
-# Infrastructure as Code — official cloud icons resolved automatically
-python3 scripts/tfimports.py   ./infra      -o graph.json   # Terraform → AWS/Azure/GCP icons
-python3 scripts/k8simports.py  ./manifests  -o graph.json   # K8s YAML/JSON → kind icons
-python3 scripts/composeimports.py compose.yml -o graph.json # services + named volumes
-
-# Live infrastructure — draw what's ACTUALLY running / deployed
-terraform show -json          | python3 scripts/tfstate.py -      -o graph.json  # deployed cloud
-docker inspect $(docker ps -q)| python3 scripts/dockerimports.py -  -o graph.json  # running containers
-kubectl get all,ing,cm,secret,pvc -o json | python3 scripts/k8simports.py - -o graph.json  # live cluster
-
-# Data & interactions
-python3 scripts/sqlerd.py      schema.sql   -o graph.json   # SQL DDL → ER diagram
-python3 scripts/ciimports.py . -o graph.json              # GitHub Actions + GitLab CI -> pipeline DAG
-python3 scripts/openapiimports.py openapi.yaml -o graph.json # OpenAPI/Swagger → API diagram (by method)
-python3 scripts/seqlayout.py   seq.json  -o sequence.drawio # sequence diagram, direct to .drawio
-python3 scripts/c4.py          c4.json   -o c4.drawio       # C4 model, multi-page + drill-down
-
-# Diff two diagrams / snapshots → colour-coded "what changed"
-python3 scripts/drawiodiff.py old.drawio new.drawio -o graph.json # +added -removed ~changed
-
-# Architecture time-lapse → self-contained HTML player of how a codebase grew
-python3 scripts/timelapse.py src --importer pyimports # → architecture-evolution.html
-
-# Reverse: describe an existing .drawio as structured Markdown (README / PR summary)
-python3 scripts/explain.py    architecture.drawio -o architecture.md
-
-# Diagram → PowerPoint deck (one page per slide; C4 model → presentation)
-python3 scripts/drawio2pptx.py c4.drawio -o c4.pptx   # needs: pip install python-pptx
-
-# Interactive HTML viewer — pan/zoom/search/tabs + working drill-down links, one file
-python3 scripts/drawiohtml.py c4.drawio -o c4.html
-
-# Animated data-flow SVG — edges "flow" (marching ants); renders on GitHub
-python3 scripts/svgflow.py    architecture.drawio -o flow.svg
-
-# Reverse: .drawio → Mermaid flowchart (diagrams-as-code GitHub renders)
-python3 scripts/drawio2mermaid.py architecture.drawio --fenced -o arch.md
-
-# Language variant: extract labels → translate values → apply (layout untouched)
-python3 scripts/relabel.py architecture.drawio --extract -o labels.json
-python3 scripts/relabel.py architecture.drawio --map labels.json -o architecture_cn.drawio
-
-# Re-theme an existing .drawio with a style preset (e.g. dark mode)
-python3 scripts/restyle.py architecture.drawio --preset dark
-
-# Colour an existing .drawio by data → cost / latency / traffic heat map
-python3 scripts/heatmap.py    architecture.drawio -m latency.csv --size -o hot.drawio
-
-# any extractor → auto-layout → editable .drawio
-python3 scripts/autolayout.py  graph.json -o diagram.drawio
-
-# Image → editable .drawio — your vision extracts the graph JSON, this rebuilds it
-python3 scripts/raster2drawio.py whiteboard-graph.json -o out.drawio
-
-# Watch a diagram build itself, node by node → HTML player (+ optional GIF)
-python3 scripts/buildup.py architecture.drawio --gif build.gif  # → buildup.html
-
-# Big diagram → boardroom exec summary (clustered) + click-to-drill-down to full
-python3 scripts/compress.py  big.drawio -o exec.drawio
-
-# Decision-tree flowchart → click-through HTML triage runbook (no draw.io CLI needed)
-python3 scripts/runbook.py   triage.drawio -o triage.html
-
-# CI: render base/head/diff PNGs + Markdown report for every .drawio a PR changed
-python3 scripts/prdiff.py --base origin/main --head HEAD -o drawio-pr/report.md
-
-# Tube-Map Mode — restyle a pipeline / journey as a metro / subway map
-python3 scripts/tubemap.py metro.json -o metro.drawio
+# drift between two states, then share as one interactive file
+python3 scripts/drawiodiff.py v1.drawio v2.drawio -o drift.json
+python3 scripts/drawiohtml.py architecture.drawio -o architecture.html
 ```
 
-| Piece | What it does |
-| --- | --- |
-| **13 extractors** | import graphs for **Python · JS/TS · Go · Rust**, **Python class inheritance**, **Terraform / Kubernetes / docker-compose** resource graphs (official cloud icons), **SQL DDL → ERD**, **OpenAPI / Swagger → API diagram** (operations coloured by HTTP method + schemas), **CI pipelines → DAG** (GitHub Actions `needs:` graphs + GitLab stages, with triggers, matrix sizes, reusable-workflow calls), and **live** infra from `terraform show -json` / `docker inspect` / `kubectl get -o json` (draw what's actually deployed) |
-| **Diagram diff** | `drawiodiff.py` compares two `.drawio` (or two live snapshots) into one colour-coded graph — added=green, removed=red, changed=orange — so you can see architecture / infra **drift** at a glance |
-| **Language variants** | `relabel.py` swaps every label via a JSON map with layout/styles/ids untouched — `--extract` dumps all labels, translate the values, `--map` applies them. One diagram → EN + CN twins for bilingual docs |
-| **Re-theme** | `restyle.py` applies a style preset (built-in `dark`/`corporate`/… or your own) to an *existing* `.drawio` — palette remapped by hue so same-colored nodes stay grouped; layout and edge routing untouched |
-| **Metric heat map** | `heatmap.py` recolours an existing `.drawio` from a CSV/JSON of per-node values — cost / latency / traffic / error-rate shaded low→high on a gradient (optional size-by-value + legend), matched by cell id or label |
-| **Architecture time-lapse** | `timelapse.py` re-runs an importer across a repo's git history and assembles a self-contained HTML player — watch modules & edges appear over time (▶ play / ‹ › step) |
-| **Diagram → Markdown** | `explain.py` reverses a `.drawio` into a structured description — components by tier, relations, per-page for C4 — for dropping an architecture summary into a README or PR |
-| **Interactive viewer** | `drawiohtml.py` publishes a `.drawio` as one self-contained HTML — page tabs, drag-pan, wheel-zoom, node search, and a C4 model's drill-down links keep working. Share the file; no draw.io, no server |
-| **Diagram → PowerPoint** | `drawio2pptx.py` turns a multi-page diagram into a 16:9 deck (one page per slide, page name as title) — a C4 model becomes a ready-to-present slideshow |
-| **Animated data-flow** | `svgflow.py` makes a diagram's edges *flow* (marching-ants animation along each arrow) — a self-contained looping SVG that renders on GitHub, in docs, or as a slide background |
-| **Diagram → Mermaid** | `drawio2mermaid.py` converts a `.drawio` into a Mermaid `flowchart` (containers → subgraphs, edge labels kept) — paste it into Markdown as diagrams-as-code that GitHub renders natively |
-| **Sequence engine** | `seqlayout.py` computes lifeline / activation-bar / arrow geometry from a message list — no Graphviz, no hand placement |
-| **Auto-layout** | Graphviz places nodes and routes orthogonal edges *around* them — removes the manual-coordinate ceiling for large graphs. `--tune` tries both directions and keeps the more readable one |
-| **Transitive reduction** | drops edges implied by a longer path, turning a dense hairball into a traceable graph (asyncio: 149 → 46 edges) |
-| **Nested containers** | `--group` boxes modules by sub-package, nested for deep package trees |
-| **Deterministic validator** | `validate.py` lints the `.drawio` (dangling edges, duplicate ids, overlaps) before the visual self-check |
+The full toolbox, grouped by stage:
 
-Layout needs Graphviz (`brew install graphviz` / `apt install graphviz`) — optional; everything else works without it. Full format + flag reference in [references/autolayout.md](skills/drawio-skill/references/autolayout.md). Regenerate, validate (`--strict` gate) and render headlessly in CI: [docs/CI.md](docs/CI.md).
+| Stage | Tools |
+| --- | --- |
+| **Import** | 13 extractors: **Python · JS/TS · Go · Rust** import graphs, **Python class inheritance**, **Terraform / Kubernetes / docker-compose** with official cloud icons, **live** infra from `terraform show -json` / `docker inspect` / `kubectl get -o json`, **SQL DDL → ERD**, **OpenAPI → API diagram** (coloured by HTTP method), **GitHub Actions + GitLab CI → DAG** |
+| **Compare & evolve** | `drawiodiff.py` colour-codes drift between two diagrams or two live snapshots (added=green, removed=red, changed=orange); `timelapse.py` replays git history as an HTML player; `prdiff.py` renders PR diffs in CI |
+| **Repurpose** | `explain.py` → Markdown, `drawiohtml.py` → pan/zoom/search HTML viewer, `drawio2pptx.py` → deck, `svgflow.py` → animated SVG, `drawio2mermaid.py` → diagrams-as-code, `runbook.py` → clickable triage app, `compress.py` → exec summary with drill-down, `buildup.py` → self-drawing player, `tubemap.py` → metro map |
+| **Restyle & enrich** | `restyle.py` applies presets by hue remap, `relabel.py` produces translated twins with layout untouched, `heatmap.py` shades nodes from a metrics CSV/JSON, `edgeports.py` un-stacks edges at shape boundaries |
+| **Layout & lint** | `autolayout.py` (Graphviz placement, orthogonal routing, `--tune` direction picking, `--group` containers, transitive reduction: asyncio 149 → 46 edges), `seqlayout.py`, `c4.py`, and the deterministic `validate.py` linter (`--score` / `--strict`) |
+
+Layout needs Graphviz (`brew install graphviz` / `apt install graphviz`) — optional; everything else works without it. Full format + flag reference in [references/autolayout.md](skills/drawio-skill/references/autolayout.md), every tool in [references/toolbox.md](skills/drawio-skill/references/toolbox.md). Regenerate, validate (`--strict` gate) and render headlessly in CI: [docs/CI.md](docs/CI.md).
 
 ## 🧩 Supported Diagram Types
 
@@ -338,11 +264,11 @@ python3 scripts/aiicons.py "openai" --embed     # self-contained data URI
 
 Capture a visual style once, reuse it everywhere. Five presets are built in — `default`, `corporate`, `handdrawn`, `colorblind-safe` (Okabe-Ito palette), `dark` — and you can teach the skill your own style from a `.drawio` file or a flat image:
 
-```
+```text
 Draw a microservices architecture using my "corporate" style
 ```
 
-```
+```text
 Learn my style from ~/diagrams/brand.drawio as "mybrand"
 ```
 
