@@ -5,7 +5,7 @@ on [Keep a Changelog](https://keepachangelog.com/), and the project follows
 semantic-ish versioning (the `metadata.version` field in
 `skills/drawio-skill/SKILL.md`).
 
-## [3.2.4] - 2026-09-11
+## [Unreleased]
 
 ### Added
 
@@ -13,6 +13,8 @@ semantic-ish versioning (the `metadata.version` field in
   files into service (with RPC methods), message (with typed fields), and enum
   nodes with source provenance, request/response and field-type edges, and
   optional package grouping.
+
+## [3.2.4] - 2026-09-11
 
 ### Changed
 

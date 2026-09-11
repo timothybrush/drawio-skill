@@ -31,7 +31,7 @@ A skill that turns natural language and real system sources into maintainable `.
 
 - **Visualize a codebase** — import graphs for Python / JS-TS / Go / Rust and Python class hierarchies, with Graphviz placement, transitive reduction, and nested module containers
 - **IaC and live infrastructure** — Terraform, Kubernetes, and docker-compose configs become diagrams with official AWS / Azure / GCP / K8s icons; snapshot what's *actually deployed* from `terraform show -json`, `docker inspect`, or `kubectl get -o json`
-- **Schemas and pipelines** — SQL DDL → ER diagram, OpenAPI/Swagger → API diagram coloured by HTTP method, GitHub Actions / GitLab CI → pipeline DAG
+- **Schemas and pipelines** — SQL DDL → ER diagram, OpenAPI/Swagger → API diagram coloured by HTTP method, Protocol Buffers → message/service diagram, GitHub Actions / GitLab CI → pipeline DAG
 - **Deterministic engines** — sequence diagrams with computed lifelines and activation bars; multi-page C4 models with click-to-drill-down
 
 **Keep it true over time**
@@ -200,7 +200,7 @@ The full toolbox, grouped by stage:
 
 | Stage | Tools |
 | --- | --- |
-| **Import** | 13 extractors: **Python · JS/TS · Go · Rust** import graphs, **Python class inheritance**, **Terraform / Kubernetes / docker-compose** with official cloud icons, **live** infra from `terraform show -json` / `docker inspect` / `kubectl get -o json`, **SQL DDL → ERD**, **OpenAPI → API diagram** (coloured by HTTP method), **GitHub Actions + GitLab CI → DAG** |
+| **Import** | 14 extractors: **Python · JS/TS · Go · Rust** import graphs, **Python class inheritance**, **Terraform / Kubernetes / docker-compose** with official cloud icons, **live** infra from `terraform show -json` / `docker inspect` / `kubectl get -o json`, **SQL DDL → ERD**, **OpenAPI → API diagram** (coloured by HTTP method), **Protobuf → message/service diagram**, **GitHub Actions + GitLab CI → DAG** |
 | **Compare & evolve** | `drawiodiff.py` colour-codes drift between two diagrams or two live snapshots (added=green, removed=red, changed=orange); `timelapse.py` replays git history as an HTML player; `prdiff.py` renders PR diffs in CI |
 | **Repurpose** | `explain.py` → Markdown, `drawiohtml.py` → pan/zoom/search HTML viewer, `drawio2pptx.py` → deck, `svgflow.py` → animated SVG, `drawio2mermaid.py` → diagrams-as-code, `runbook.py` → clickable triage app, `compress.py` → exec summary with drill-down, `buildup.py` → self-drawing player, `tubemap.py` → metro map |
 | **Restyle & enrich** | `restyle.py` applies presets by hue remap, `relabel.py` produces translated twins with layout untouched, `heatmap.py` shades nodes from a metrics CSV/JSON, `edgeports.py` un-stacks edges at shape boundaries |
@@ -302,7 +302,7 @@ Behind the scenes: **check dependencies → plan layout → generate `.drawio` X
 | **Browser fallback** | ✅ diagrams.net URL (viewer + editable) | ✅ diagrams.net URL (plugin) + inline preview | ✅ via optional MCP | ✅ diagrams.net viewer (primary) |
 | **Zero-config** | ✅ copy `skills/drawio-skill/` | ✅ | ✅ desktop-only mode | ❌ needs plugin install |
 
-> **Using the official jgraph plugin?** [jgraph/drawio-mcp](https://github.com/jgraph/drawio-mcp) now ships an official Claude Code plugin (`/plugin install drawio@drawio`) that also generates `.drawio` and exports via the desktop CLI. drawio-skill is complementary — reach for it when you want the code / IaC / SQL / OpenAPI importers, AI-brand logos, deterministic sequence & C4 generators, self-check + review loop, and the interactive HTML viewer, all from a single SKILL.md with no MCP server.
+> **Using the official jgraph plugin?** [jgraph/drawio-mcp](https://github.com/jgraph/drawio-mcp) now ships an official Claude Code plugin (`/plugin install drawio@drawio`) that also generates `.drawio` and exports via the desktop CLI. drawio-skill is complementary — reach for it when you want the code / IaC / SQL / OpenAPI / Protobuf importers, AI-brand logos, deterministic sequence & C4 generators, self-check + review loop, and the interactive HTML viewer, all from a single SKILL.md with no MCP server.
 
 Full comparison + key-advantages summary in [docs/COMPARISON.md](docs/COMPARISON.md) (with audit timestamp).
 
