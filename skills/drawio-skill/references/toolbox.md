@@ -1,6 +1,6 @@
 # Toolbox — every bundled script, by use-case
 
-A map of the 40 focused tools, the unified `diagramctl.py` orchestrator
+A map of the 41 focused tools, the unified `diagramctl.py` orchestrator
 (and its MCP server wrapper), and its
 internal `diagram_ir.py` model grouped by what you're trying to do. The
 per-task routing table in `SKILL.md` says *when* to reach for each; this says

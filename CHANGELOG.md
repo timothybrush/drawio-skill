@@ -5,13 +5,15 @@ on [Keep a Changelog](https://keepachangelog.com/), and the project follows
 semantic-ish versioning (the `metadata.version` field in
 `skills/drawio-skill/SKILL.md`).
 
-## [3.2.4] - 2026-09-11
+## [Unreleased]
 
 ### Added
 
 - **AsyncAPI importer** (`asyncapiimports.py`): AsyncAPI 2 and 3 specs can now
   produce channel, publish/subscribe operation, and payload-schema graphs with
   source provenance, direction control, and optional grouping.
+
+## [3.2.4] - 2026-09-11
 
 ### Changed
 
