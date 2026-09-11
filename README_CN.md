@@ -31,7 +31,7 @@
 
 - **可视化代码库** —— Python / JS-TS / Go / Rust 项目的导入关系图与 Python 类继承层级，Graphviz 布点、传递约简、按子包嵌套的容器
 - **IaC 与实时基础设施** —— Terraform、Kubernetes、docker-compose 配置直接变成带**官方 AWS / Azure / GCP / K8s 图标**的架构图；也能从 `terraform show -json`、`docker inspect`、`kubectl get -o json` 画出**真正在运行**的东西
-- **Schema 与流水线** —— SQL DDL → ER 图，OpenAPI/Swagger → 按 HTTP 方法着色的 API 图，GitHub Actions / GitLab CI → 流水线 DAG
+- **Schema 与流水线** —— SQL DDL → ER 图，OpenAPI/Swagger → 按 HTTP 方法着色的 API 图，AsyncAPI → 事件驱动架构图，GitHub Actions / GitLab CI → 流水线 DAG
 - **确定性引擎** —— 序列图自动计算 lifeline 与激活条；多页 C4 模型支持点击下钻
 
 **让图长期保持真实**
@@ -197,7 +197,7 @@ python3 scripts/drawiohtml.py architecture.drawio -o architecture.html
 
 | 阶段 | 工具 |
 | --- | --- |
-| **导入** | 13 个提取器：**Python · JS/TS · Go / Rust** 导入关系图、**Python 类继承**、**Terraform / Kubernetes / docker-compose**（官方云图标）、从 `terraform show -json` / `docker inspect` / `kubectl get -o json` 提取的**实时**基础设施、**SQL DDL → ER 图**、**OpenAPI → API 图**（按 HTTP 方法着色）、**GitHub Actions + GitLab CI → DAG** |
+| **导入** | 14 个提取器：**Python · JS/TS · Go / Rust** 导入关系图、**Python 类继承**、**Terraform / Kubernetes / docker-compose**（官方云图标）、从 `terraform show -json` / `docker inspect` / `kubectl get -o json` 提取的**实时**基础设施、**SQL DDL → ER 图**、**OpenAPI → API 图**（按 HTTP 方法着色）、**AsyncAPI → 事件驱动架构图**、**GitHub Actions + GitLab CI → DAG** |
 | **对比与演进** | `drawiodiff.py` 用颜色标出两张图或两个实时快照的漂移（新增=绿、删除=红、变更=橙）；`timelapse.py` 把 git 历史重放成 HTML 播放器；`prdiff.py` 在 CI 里渲染 PR diff |
 | **二次利用** | `explain.py` → Markdown，`drawiohtml.py` → 平移缩放搜索的 HTML 查看器，`drawio2pptx.py` → 演示稿，`svgflow.py` → 动画 SVG，`drawio2mermaid.py` → diagrams-as-code，`runbook.py` → 点击式排查应用，`compress.py` → 可下钻的高管摘要，`buildup.py` → 自动绘制播放器，`tubemap.py` → 地铁图 |
 | **换肤与增强** | `restyle.py` 按色相重映射应用预设，`relabel.py` 布局不动地生成翻译变体，`heatmap.py` 按指标 CSV/JSON 给节点上色，`edgeports.py` 解开形状边界上堆叠的连线 |
@@ -299,7 +299,7 @@ Skill 会提取配色、形状、字体和连线风格，渲染预览图，**确
 | **浏览器降级** | ✅ diagrams.net URL（查看 + 可编辑） | ✅ diagrams.net URL（插件）+ 内联预览 | ✅ 通过可选 MCP | ✅ diagrams.net viewer（主要） |
 | **零配置** | ✅ 复制 `skills/drawio-skill/` | ✅ | ✅ 桌面版模式 | ❌ 需安装插件 |
 
-> **在用官方 jgraph 插件？** [jgraph/drawio-mcp](https://github.com/jgraph/drawio-mcp) 现已提供官方 Claude Code 插件（`/plugin install drawio@drawio`），同样生成 `.drawio` 并通过桌面版 CLI 导出。drawio-skill 与之互补 —— 当你需要代码 / IaC / SQL / OpenAPI 导入器、AI 品牌图标、确定性时序图与 C4 生成器、自检 + 审查循环以及交互式 HTML 查看器，且只想用单个 SKILL.md、无需 MCP 服务时，选它。
+> **在用官方 jgraph 插件？** [jgraph/drawio-mcp](https://github.com/jgraph/drawio-mcp) 现已提供官方 Claude Code 插件（`/plugin install drawio@drawio`），同样生成 `.drawio` 并通过桌面版 CLI 导出。drawio-skill 与之互补 —— 当你需要代码 / IaC / SQL / OpenAPI / AsyncAPI 导入器、AI 品牌图标、确定性时序图与 C4 生成器、自检 + 审查循环以及交互式 HTML 查看器，且只想用单个 SKILL.md、无需 MCP 服务时，选它。
 
 完整对比 + 核心优势总结见 [docs/COMPARISON_CN.md](docs/COMPARISON_CN.md)（含核查时间戳）。
 

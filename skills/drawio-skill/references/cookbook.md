@@ -128,6 +128,14 @@ Turn schema.sql into an ER diagram with PK/FK markers and crow's-foot
 notation; keep schema prefixes for the billing tables.
 ```
 
+## Event-driven architecture from AsyncAPI
+
+```text
+Turn asyncapi.yaml into an event-driven architecture diagram. Show channels,
+publish and subscribe operations, and referenced payload schemas; group related
+flows by tag and lay them out from left to right.
+```
+
 ## ML / deep-learning model
 
 ```text
