@@ -2,6 +2,7 @@
 """Tests for the unified Diagram IR and diagramctl workflows."""
 
 import base64
+import importlib
 import json
 import os
 import subprocess
@@ -9,14 +10,15 @@ import sys
 import tempfile
 import unittest
 import urllib.parse
-import zlib
 import xml.etree.ElementTree as ET
-
+import zlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPTS = os.path.join(ROOT, "skills", "drawio-skill", "scripts")
 sys.path.insert(0, SCRIPTS)
-import diagram_ir as d  # noqa: E402 - path injection loads the bundled module
+# Imported dynamically: the scripts directory is not a package on sys.path
+# before the line above, so a static import would read as unresolvable.
+d = importlib.import_module("diagram_ir")
 
 
 def sample_ir():
@@ -180,7 +182,10 @@ class TestDiagramIR(unittest.TestCase):
                 c for c in tree.iter("mxCell") if c.get("data-model-id") == "orders"
             )
             cell.set("style", "rounded=1;fillColor=#123456;")
-            cell.find("mxGeometry").set("x", "777")
+            # pi-lens-ignore: pi-lens:optional-none-attribute
+            geometry = cell.find("mxGeometry")
+            assert geometry is not None
+            geometry.set("x", "777")
             tree.write(old, encoding="unicode")
             incoming = sample_ir()
             next(n for n in incoming["nodes"] if n["id"] == "orders")["label"] = (
@@ -211,8 +216,10 @@ class TestDiagramIR(unittest.TestCase):
             cell = next(
                 c for c in tree.iter("mxCell") if c.get("data-model-id") == "orders"
             )
-            self.assertEqual("777", cell.find("mxGeometry").get("x"))
-            self.assertIn("#123456", cell.get("style"))
+            geometry = cell.find("mxGeometry")
+            assert geometry is not None
+            self.assertEqual("777", geometry.get("x"))
+            self.assertIn("#123456", cell.get("style") or "")
             self.assertEqual("Order Service", cell.get("value"))
 
     def test_reconcile_reports_three_way_label_conflict(self):
