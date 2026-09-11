@@ -5,6 +5,7 @@ Run from the repo root:  python3 examples/hero-demo/build_hero_gif.py
 Needs: drawio CLI, ffmpeg, Pillow. Outputs are written next to this script and
 the final GIF lands in assets/hero-demo.gif.
 """
+
 import subprocess
 import sys
 import tempfile
@@ -27,19 +28,51 @@ font_bold = ImageFont.truetype(FONT, 18, index=1)
 
 
 def run(cmd, cwd=ROOT):
-    subprocess.run([str(c) for c in cmd], check=True, cwd=cwd,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(
+        [str(c) for c in cmd],
+        check=True,
+        cwd=cwd,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 def build_diagrams(tmp):
     for name, tf in (("v1", "main.tf"), ("v2", "main-v2.tf")):
         graph = tmp / f"{name}.json"
-        run([sys.executable, SCRIPTS / "tfimports.py", HERE / tf,
-             "--direction", "LR", "-o", graph])
-        run([sys.executable, SCRIPTS / "autolayout.py", graph,
-             "-o", HERE / f"{name}.drawio"])
-        run(["drawio", "-x", "-f", "png", "--width", "1200",
-             "-o", tmp / f"{name}.png", HERE / f"{name}.drawio"])
+        run(
+            [
+                sys.executable,
+                SCRIPTS / "tfimports.py",
+                HERE / tf,
+                "--direction",
+                "LR",
+                "-o",
+                graph,
+            ]
+        )
+        run(
+            [
+                sys.executable,
+                SCRIPTS / "autolayout.py",
+                graph,
+                "-o",
+                HERE / f"{name}.drawio",
+            ]
+        )
+        run(
+            [
+                "drawio",
+                "-x",
+                "-f",
+                "png",
+                "--width",
+                "1200",
+                "-o",
+                tmp / f"{name}.png",
+                HERE / f"{name}.drawio",
+            ]
+        )
 
 
 def code_frame(path, highlight_from=None):
@@ -48,8 +81,10 @@ def code_frame(path, highlight_from=None):
     panel = (40, 40, W - 40, H - 40)
     d.rounded_rectangle(panel, radius=18, fill=PANEL)
     lines = path.read_text().splitlines()
-    start = next((i for i, ln in enumerate(lines)
-                  if highlight_from and highlight_from in ln), len(lines))
+    start = next(
+        (i for i, ln in enumerate(lines) if highlight_from and highlight_from in ln),
+        len(lines),
+    )
     per_col, line_h, col_w = 18, 23, 600
     for i, line in enumerate(lines):
         col, row = divmod(i, per_col)
@@ -93,8 +128,7 @@ def main():
         frames = [
             code_frame(HERE / "main.tf"),
             diagram_frame(tmp / "v1.png"),
-            code_frame(HERE / "main-v2.tf",
-                       highlight_from="# v2 adds"),
+            code_frame(HERE / "main-v2.tf", highlight_from="# v2 adds"),
             diagram_frame(tmp / "v2.png"),
         ]
         listfile = tmp / "frames.txt"
@@ -105,11 +139,38 @@ def main():
                 f.write(f"file '{p.name}'\nduration {HOLD_S}\n")
             f.write("file 'frame3.png'\n")
         palette = tmp / "palette.png"
-        run(["ffmpeg", "-y", "-f", "concat", "-i", listfile.name,
-             "-vf", "palettegen", "-update", "1", palette.name], cwd=tmp)
-        run(["ffmpeg", "-y", "-f", "concat", "-i", listfile.name,
-             "-i", palette.name,
-             "-lavfi", "fps=10 [x]; [x][1:v] paletteuse", OUT], cwd=tmp)
+        run(
+            [
+                "ffmpeg",
+                "-y",
+                "-f",
+                "concat",
+                "-i",
+                listfile.name,
+                "-vf",
+                "palettegen",
+                "-update",
+                "1",
+                palette.name,
+            ],
+            cwd=tmp,
+        )
+        run(
+            [
+                "ffmpeg",
+                "-y",
+                "-f",
+                "concat",
+                "-i",
+                listfile.name,
+                "-i",
+                palette.name,
+                "-lavfi",
+                "fps=10 [x]; [x][1:v] paletteuse",
+                OUT,
+            ],
+            cwd=tmp,
+        )
     print(f"wrote {OUT}")
 
 
