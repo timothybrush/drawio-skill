@@ -5,7 +5,25 @@ on [Keep a Changelog](https://keepachangelog.com/), and the project follows
 semantic-ish versioning (the `metadata.version` field in
 `skills/drawio-skill/SKILL.md`).
 
-## [Unreleased]
+## [3.2.2] - 2026-09-11
+
+### Fixed
+
+- **drawiodiff.py**: `NameError` when an edge re-points its source node
+  (reported in #115, merged in #116).
+
+### Added
+
+- **SKILL.md routing table**: rows for the five reference files previously
+  only reachable transitively, so the table again covers every file in
+  `references/`: large-graph automatic layout (`autolayout.md`), live
+  infrastructure vs declared config (`live-infra.md`), PR-comment rendering
+  (`pr-bot.md`), style extraction from an existing diagram
+  (`style-extraction.md`), and metro/subway maps (`tubemap.md`).
+- **toolbox.md**: entry for `edgeports.py` (boundary port assignment for
+  stacked edges on swimlanes), making the "39 focused tools" claim true.
+- **LICENSE**: the MIT license text is now also shipped inside
+  `skills/drawio-skill/`, so an installed copy of the skill carries it.
 
 ### Changed
 
