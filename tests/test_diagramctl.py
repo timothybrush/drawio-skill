@@ -332,6 +332,45 @@ class TestDiagramCtl(unittest.TestCase):
             edge = next(e for e in ir["edges"] if e["source"] == "pkg.cli")
             self.assertEqual(edge["provenance"]["line"], 1)
 
+    def test_build_auto_detects_asyncapi_and_preserves_provenance(self):
+        with tempfile.TemporaryDirectory() as td:
+            src = os.path.join(td, "asyncapi.json")
+            out = os.path.join(td, "events.drawio")
+            ir_json = os.path.join(td, "events.ir.json")
+            spec = {
+                "asyncapi": "2.6.0",
+                "channels": {
+                    "orders/created": {
+                        "publish": {
+                            "message": {
+                                "payload": {"$ref": "#/components/schemas/Order"}
+                            }
+                        }
+                    }
+                },
+                "components": {"schemas": {"Order": {"type": "object"}}},
+            }
+            with open(src, "w", encoding="utf-8") as fh:
+                json.dump(spec, fh)
+
+            result = self.run_cli(
+                "build", src, "--group", "--ir-output", ir_json, "-o", out
+            )
+
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertEqual("asyncapi", json.loads(result.stdout)["source_type"])
+            with open(ir_json, encoding="utf-8") as fh:
+                ir = json.load(fh)
+            operation = next(
+                node for node in ir["nodes"] if node["id"].startswith("operation:")
+            )
+            self.assertEqual("asyncapi", operation["provenance"]["importer"])
+            self.assertEqual(
+                "#/channels/orders~1created/publish",
+                operation["provenance"]["pointer"],
+            )
+            self.assertEqual("orders", operation["group"])
+
     def test_view_fallback_reports_metadata_gap(self):
         # A model with no deployment/security/data metadata must say so, with a
         # hint, instead of silently falling back to the whole graph.

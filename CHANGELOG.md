@@ -7,6 +7,12 @@ semantic-ish versioning (the `metadata.version` field in
 
 ## [3.2.4] - 2026-09-11
 
+### Added
+
+- **AsyncAPI importer** (`asyncapiimports.py`): AsyncAPI 2 and 3 specs can now
+  produce channel, publish/subscribe operation, and payload-schema graphs with
+  source provenance, direction control, and optional grouping.
+
 ### Changed
 
 - **README / README_CN reorganized for readability**: the 26 flat Highlights

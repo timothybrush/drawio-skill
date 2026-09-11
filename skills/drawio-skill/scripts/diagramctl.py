@@ -51,6 +51,7 @@ IMPORTERS = {
     "compose": "composeimports.py",
     "sql": "sqlerd.py",
     "openapi": "openapiimports.py",
+    "asyncapi": "asyncapiimports.py",
     "ci": "ciimports.py",
 }
 CODE_IMPORTERS = {"python", "javascript", "js", "go", "rust", "pyclasses"}
@@ -103,6 +104,8 @@ def detect_source(path):
             data = json.loads(p.read_text(encoding="utf-8"))
             if data.get("schema") == "drawio-skill/diagram-ir/v1":
                 return "ir"
+            if "asyncapi" in data:
+                return "asyncapi"
             if "openapi" in data or "swagger" in data:
                 return "openapi"
         except (OSError, ValueError):
@@ -110,6 +113,8 @@ def detect_source(path):
         return "graph"
     if suffix in {".yaml", ".yml"}:
         text = p.read_text(encoding="utf-8", errors="ignore")[:10000]
+        if "asyncapi:" in text:
+            return "asyncapi"
         if "openapi:" in text or "swagger:" in text:
             return "openapi"
         if "services:" in text:
@@ -161,6 +166,7 @@ def importer_ir(source, source_type, group=False):
             "rust",
             "pyclasses",
             "openapi",
+            "asyncapi",
         }:
             cmd.insert(-2, "--group")
         proc = subprocess.run(cmd, text=True, capture_output=True)
@@ -500,7 +506,7 @@ def parser():
     p.set_defaults(func=cmd_doctor)
 
     p = sub.add_parser(
-        "build", help="build a draw.io from IR, graph JSON, code, IaC, SQL or OpenAPI"
+        "build", help="build a draw.io from IR, graph JSON, code, IaC, SQL, OpenAPI or AsyncAPI"
     )
     p.add_argument("source")
     p.add_argument("-o", "--output", required=True)
