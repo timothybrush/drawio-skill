@@ -81,8 +81,6 @@ def emit(value, output=None):
 def detect_source(path):
     p = Path(path)
     if p.is_dir():
-        if list(p.rglob("*.proto")):
-            return "proto"
         if list(p.rglob("*.tf")):
             return "terraform"
         if (p / "Cargo.toml").exists():
@@ -93,6 +91,10 @@ def detect_source(path):
             return "javascript"
         if (p / ".github" / "workflows").exists() or (p / ".gitlab-ci.yml").exists():
             return "ci"
+        # Last, because a .proto file is often one schema inside a project whose
+        # own language markers above describe the repository better.
+        if list(p.rglob("*.proto")):
+            return "proto"
         return "python"
     suffix = p.suffix.lower()
     if suffix == ".proto":

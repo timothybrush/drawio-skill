@@ -9,10 +9,25 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT = os.path.join(ROOT, "skills", "drawio-skill", "scripts", "protoimports.py")
 DIAGRAMCTL = os.path.join(ROOT, "skills", "drawio-skill", "scripts", "diagramctl.py")
+sys.path.insert(0, os.path.dirname(DIAGRAMCTL))
+
+
+def load_bundled(name):
+    """Load a bundled script by path (the scripts directory is not a package)."""
+    path = os.path.join(os.path.dirname(DIAGRAMCTL), name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+diagramctl = load_bundled("diagramctl")
 
 
 def load_importer():
     spec = importlib.util.spec_from_file_location("protoimports", SCRIPT)
+    assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -126,6 +141,50 @@ class TestProtoImports(unittest.TestCase):
 
         self.assertIn(("shop.Cart", "shop.Cart.State"), pairs)
         self.assertIn(("shop.Cart", "shop.Cart.Item"), pairs)
+
+    def test_comments_do_not_swallow_string_literals(self):
+        # A "//" inside a string used to be stripped as a comment, which also
+        # removed the brace that closed the message and dropped the rest of the
+        # file (URLs in options/defaults are the realistic case).
+        proto = '''
+        syntax = "proto3";
+        package demo;
+
+        /* block comment */
+        message Req { string url = 1 [default = "https://example.com/a"]; }
+        message Resp { string ok = 1; }  // trailing comment
+        service DemoService { rpc Get (Req) returns (Resp); }
+        '''
+        parsed = self.importer.parse_proto(proto, "demo.proto")
+        self.assertEqual(["Req", "Resp"], [m["name"] for m in parsed["messages"]])
+        self.assertEqual(["DemoService"], [s["name"] for s in parsed["services"]])
+        # Line numbers stay accurate across the block and trailing comments.
+        self.assertEqual([6, 7], [m["line"] for m in parsed["messages"]])
+
+    def test_map_types_survive_html_label_rendering(self):
+        proto = '''
+        syntax = "proto3";
+        package shop;
+        message Cart { map<string, Item> items = 1; }
+        message Item { string sku = 1; }
+        '''
+        parsed = self.importer.parse_proto(proto, "shop.proto")
+        graph = self.importer.build([parsed])
+        label = next(n for n in graph["nodes"] if n["id"] == "shop.Cart")["label"]
+        self.assertIn("items: map&lt;string, Item&gt;", label)
+
+    def test_directory_detection_keeps_project_language_markers(self):
+        with tempfile.TemporaryDirectory() as td:
+            with open(os.path.join(td, "go.mod"), "w", encoding="utf-8") as f:
+                f.write("module example.com/svc\n")
+            with open(os.path.join(td, "svc.proto"), "w", encoding="utf-8") as f:
+                f.write('syntax = "proto3";\nmessage A {}\n')
+            self.assertEqual("go", diagramctl.detect_source(td))
+
+        with tempfile.TemporaryDirectory() as td:
+            with open(os.path.join(td, "svc.proto"), "w", encoding="utf-8") as f:
+                f.write('syntax = "proto3";\nmessage A {}\n')
+            self.assertEqual("proto", diagramctl.detect_source(td))
 
     def test_cli_reads_file_and_directory(self):
         with tempfile.TemporaryDirectory() as td:

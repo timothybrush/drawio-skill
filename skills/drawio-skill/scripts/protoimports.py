@@ -53,6 +53,7 @@ SCALAR_TYPES = {
 TOKEN_RE = re.compile(
     r"""
     (?P<STRING>"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')
+  | (?P<COMMENT>//[^\n]*|/\*[\s\S]*?\*/)
   | (?P<NUM>-?[0-9]+(?:\.[0-9]+)?)
   | (?P<IDENT>[A-Za-z_][A-Za-z0-9_.]*)
   | (?P<SYM>[{}();=<>:,\[\]])
@@ -71,26 +72,18 @@ class Token:
         self.line = line
 
 
-def strip_comments(text):
-    def repl_block(m):
-        return "\n" * m.group(0).count("\n")
-
-    text = re.sub(r"/\*.*?\*/", repl_block, text, flags=re.DOTALL)
-    text = re.sub(r"//[^\n]*", "", text)
-    return text
-
-
 def tokenize(text):
     tokens = []
     line = 1
     pos = 0
-    text = strip_comments(text)
+    # Comments are matched by the tokenizer rather than stripped up front, so a
+    # `//` or `/*` inside a string literal (a URL, say) stays part of the string.
     for m in TOKEN_RE.finditer(text):
         kind = m.lastgroup
         val = m.group()
         line += text[pos:m.start()].count("\n")
         pos = m.start()
-        if kind != "WS":
+        if kind not in ("WS", "COMMENT"):
             tokens.append(Token(kind, val, line))
         line += val.count("\n")
         pos = m.end()
@@ -345,6 +338,20 @@ def parse_proto(text, file_path=""):
     }
 
 
+def esc(text):
+    """Escape HTML metacharacters for draw.io's html=1 labels.
+
+    Without it a field type such as `map<string, Item>` is swallowed as an
+    unknown HTML tag when draw.io renders the label.
+    """
+    return (
+        text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+    )
+
+
 def compute_dimensions(lines):
     width = max(160, -(-max(7 * len(l) + 30 for l in lines) // 10) * 10)
     height = max(50, -(-(30 + 18 * len(lines)) // 10) * 10)
@@ -431,7 +438,7 @@ def build(proto_data_list, group=False, direction="TB"):
             w, h = compute_dimensions(lines)
             node = {
                 "id": s["id"],
-                "label": "\n".join(lines),
+                "label": esc("\n".join(lines)),
                 "style": SERVICE_STYLE,
                 "width": w,
                 "height": h,
@@ -461,7 +468,7 @@ def build(proto_data_list, group=False, direction="TB"):
             w, h = compute_dimensions(lines)
             node = {
                 "id": m["id"],
-                "label": "\n".join(lines),
+                "label": esc("\n".join(lines)),
                 "style": MESSAGE_STYLE,
                 "width": w,
                 "height": h,
@@ -488,7 +495,7 @@ def build(proto_data_list, group=False, direction="TB"):
             w, h = compute_dimensions(lines)
             node = {
                 "id": e["id"],
-                "label": "\n".join(lines),
+                "label": esc("\n".join(lines)),
                 "style": ENUM_STYLE,
                 "width": w,
                 "height": h,
@@ -521,12 +528,14 @@ def main():
 
     parsed_list = []
     for fpath in files:
+        # pi-lens-ignore: ast-grep:unchecked-throwing-call-python
         with open(fpath, encoding="utf-8", errors="replace") as fh:
             parsed_list.append(parse_proto(fh.read(), file_path=fpath))
 
     graph = build(parsed_list, group=args.group, direction=args.direction)
     text = json.dumps(graph, indent=2, ensure_ascii=False)
     if args.output:
+        # pi-lens-ignore: ast-grep:unchecked-throwing-call-python
         with open(args.output, "w", encoding="utf-8") as fh:
             fh.write(text)
         sys.stderr.write(f"wrote {args.output}\n")
