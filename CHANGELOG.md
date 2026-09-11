@@ -12,6 +12,10 @@ semantic-ish versioning (the `metadata.version` field in
 - **AsyncAPI importer** (`asyncapiimports.py`): AsyncAPI 2 and 3 specs can now
   produce channel, publish/subscribe operation, and payload-schema graphs with
   source provenance, direction control, and optional grouping.
+- **Protobuf importer** (`protoimports.py`): parse Protocol Buffers (`.proto`)
+  files into service (with RPC methods), message (with typed fields), and enum
+  nodes with source provenance, request/response and field-type edges, and
+  optional package grouping.
 
 ## [3.2.4] - 2026-09-11
 

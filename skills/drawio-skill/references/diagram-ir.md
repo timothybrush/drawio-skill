@@ -56,8 +56,8 @@ python3 scripts/diagramctl.py query architecture.drawio --from internet --to ord
 ```
 
 `build --from auto` recognizes Diagram IR/graph JSON, SQL, OpenAPI, AsyncAPI,
-compose, Kubernetes YAML, and common repository markers. Use an explicit `--from`
-when the source is ambiguous.
+Protobuf, compose, Kubernetes YAML, and common repository markers. Use an
+explicit `--from` when the source is ambiguous.
 
 ## Reconcile instead of regenerate
 

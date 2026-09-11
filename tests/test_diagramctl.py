@@ -93,9 +93,11 @@ class TestDiagramIR(unittest.TestCase):
             ["internet", "api", "orders", "db"], d.shortest_path(ir, "internet", "db")
         )
         self.assertEqual(
+            # pi-lens-ignore: python-sql-injection
             4, len(d.query(ir, source="internet", target="db")["nodes"])
         )
         self.assertEqual(
+            # pi-lens-ignore: python-sql-injection
             ["db"], [n["id"] for n in d.query(ir, kind="database")["nodes"]]
         )
         self.assertIn("api", d.articulation_points(ir))
